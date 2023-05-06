@@ -15,7 +15,10 @@ public class HomePage {
     }
 
     @FindBy(css = ".profile_info>h2")
-    WebElement welcomeElm;
+    private WebElement welcomeElm;
+
+    @FindBy(css = "a[class='user-profile dropdown-toggle']")
+    private WebElement emailNav;
 
     public HomePage assertOnHomePage() {
         String txt = "Welcome";
@@ -24,6 +27,18 @@ public class HomePage {
                 "Welcome element text: "+ welcomeElm.getText() + "doesn't contain word "+ txt);
         Assert.assertTrue(driver.getCurrentUrl().contains("http://localhost:4444/"));
 
+        return this;
+    }
+
+    public HomePage assertOnHomePage(String userEmail) {
+        Assert.assertTrue(emailNav.getText().contains(userEmail),
+                "Incorrect username, doesn't contain "+ userEmail);
+
+        return this;
+    }
+
+    public HomePage expandEmailNav(){
+        emailNav.click();
         return this;
     }
 }
