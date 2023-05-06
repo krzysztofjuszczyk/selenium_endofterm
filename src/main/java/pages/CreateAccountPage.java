@@ -35,7 +35,10 @@ public class CreateAccountPage {
     private WebElement createAccountElm;
 
     @FindBy(css = ".validation-summary-errors>ul>li")
-    public List<WebElement> createAccountErrors;
+    private List<WebElement> createAccountErrorsList;
+
+    @FindBy (id ="ConfirmPassword-error")
+    private WebElement errorPass;
 
     public CreateAccountPage typeEmail(String email) {
         emailTxt.clear();
@@ -83,15 +86,17 @@ public class CreateAccountPage {
     public CreateAccountPage assertErrorPasswordDoesnotMatch(){
         String expectedErrorMessage = "The password and confirmation password do not match.";
 
-        Assert.assertTrue(!createAccountErrors.isEmpty());
-        boolean containsError = false;
-        for (int i = 0; i < createAccountErrors.size(); i++) {
-            String actualErrorMsg = createAccountErrors.get(i).getText();
-            if(actualErrorMsg.equals(expectedErrorMessage)){
-                containsError = true;
-            }
-            }
-        Assert.assertTrue(containsError);
+        Assert.assertTrue(!createAccountErrorsList.isEmpty());
+        Assert.assertEquals(expectedErrorMessage,errorPass.getText());
+
+//        boolean containsError = false;
+//        for (int i = 0; i < createAccountErrorsList.size(); i++) {
+//            String actualErrorMsg = createAccountErrorsList.get(i).getText();
+//            if(actualErrorMsg.equals(expectedErrorMessage)){
+//                containsError = true;
+//            }
+//            }
+//        Assert.assertTrue(containsError);
 
         return this;
     }
