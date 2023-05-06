@@ -7,18 +7,14 @@ import java.util.Properties;
 public class Config {
 private Properties properties;
 
-    public Config(Properties properties) {
-        this.properties = getProperties();
-    }
-
     public Config() {
-
+        properties = getProperties();
     }
 
     private Properties getProperties(){
         Properties p = new Properties();
-        InputStream inputStream =getClass().getClassLoader().getResourceAsStream("config.properties");
         try {
+            InputStream inputStream =getClass().getClassLoader().getResourceAsStream("config.properties");
             p.load(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("Could not find config.properties file" + e);

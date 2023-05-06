@@ -12,7 +12,7 @@ import java.util.List;
 public class LoginPage {
     protected WebDriver driver;
 
-    LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -60,7 +60,7 @@ public class LoginPage {
         return new CreateAccountPage(driver);
     }
 
-    public LoginPage assertErrorIncorrectEmail(){
+    public LoginPage assertErrorIncorrectEmail() {
         Assert.assertTrue(!loginErrors.isEmpty());
         for (int i = 0; i < loginErrors.size(); i++) {
             String errorMessage = loginErrors.get(i).getText();
