@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.tracing.opentelemetry.SeleniumSpanExporter;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -98,6 +99,22 @@ public class CreateAccountPage {
 //            }
 //        Assert.assertTrue(containsError);
 
+        return this;
+    }
+
+    public CreateAccountPage assertErrorIncorrectPassword(String expErrorMessage) {
+        Assert.assertTrue(!createAccountErrorsList.isEmpty());
+        boolean hasError = false;
+
+        for (WebElement e :
+                createAccountErrorsList) {
+            if (e.getText().equals(expErrorMessage)){
+                hasError = true;
+                break;
+            }
+
+        }
+        Assert.assertTrue(hasError);
         return this;
     }
 }

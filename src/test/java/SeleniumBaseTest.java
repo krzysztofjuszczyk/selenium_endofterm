@@ -43,7 +43,7 @@ public class SeleniumBaseTest {
             createFile(path + destFilename);
         }
 
-//        driver.quit();
+        driver.quit();
     }
 
     public void createFile(String destFilename) {
