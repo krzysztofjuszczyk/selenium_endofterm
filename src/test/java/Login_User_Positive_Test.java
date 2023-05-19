@@ -3,33 +3,33 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Login_User_Positive_Test extends SeleniumBaseTest{
+public class Login_User_Positive_Test extends SeleniumBaseTest {
 
 
-@DataProvider(name = "registeredUsersList")
-public Object[][] setup(){
+    @DataProvider(name = "registeredUsersList")
+    public Object[][] setup() {
 
-    // how many fake users do we want to generate
-    int usersQty = 5;
+        // how many fake users do we want to generate
 
-    Object[][] users = new Object[usersQty][2];
-    Faker fake = new Faker();
+        Object[][] users = new Object[Constants_For_Tests.usersQty][2];
+        Faker fake = new Faker();
 
-    for (int i = 0; i < usersQty; i++) {
-        String email = fake.internet().emailAddress();
-        String pass = generateStrongPassword();
-        users[i][0] = email;
-        users[i][1] = pass;
+        for (int i = 0; i < Constants_For_Tests.usersQty; i++) {
+            String email = fake.internet().emailAddress();
+            String pass = generateStrongPassword();
+            users[i][0] = email;
+            users[i][1] = pass;
 
+        }
+        return users;
     }
-    return users;
-}
 
     // scenario 4 - should login correctly
-    @Test (dataProvider = "registeredUsersList")
-    public void shouldLoginCorrectlyExistingUser(String email, String password){
+    @Test(dataProvider = "registeredUsersList")
+    public void shouldLoginCorrectlyExistingUser(String email, String password) {
         new LoginPage(driver)
                 // registering a new user
                 .goToRegisterPage()
@@ -48,7 +48,9 @@ public Object[][] setup(){
     }
 
     private static String generateStrongPassword() {
-        var password = new Faker().internet().password(10,20,true,true,true);
+        var password = new Faker().internet()
+        .password(Constants_For_Tests.minGeneratedPassLength, Constants_For_Tests.maxGeneratedPassLength, true, true, true);
+
         if (isPasswordValid(password)) {
             return password;
         }
@@ -57,11 +59,15 @@ public Object[][] setup(){
     }
 
     private static boolean isPasswordValid(String password) {
-        return  password.length() >= 10 &&
+        Pattern pattern = Pattern.compile(Constants_For_Tests.regEx);  // list of special chars in a form of regex
+        Matcher matcher = pattern.matcher(password);
+
+        return password.length() >= Constants_For_Tests.minGeneratedPassLength &&
+                password.length() <= Constants_For_Tests.maxGeneratedPassLength &&
                 password.chars().anyMatch(Character::isDigit) &&
                 password.chars().anyMatch(Character::isLowerCase) &&
                 password.chars().anyMatch(Character::isUpperCase)
-                &&  Pattern.matches("[$&+,:;=?@#|'<>.^*()%!-]", password);
+                && matcher.find();
     }
 
 }
