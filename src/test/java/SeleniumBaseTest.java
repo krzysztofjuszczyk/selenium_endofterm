@@ -33,7 +33,10 @@ public class SeleniumBaseTest {
     public void baseAfterMethod(ITestResult result) {
         //verify if test failed & create a file with a descriptive filename
         if (result.getStatus() == ITestResult.FAILURE) {
+
+            // define path for saving screenshots
             String path = "c:\\tmp\\";
+
             String className = this.getClass().getName();
             String methodName = result.getMethod().getMethodName();
             String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());

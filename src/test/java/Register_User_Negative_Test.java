@@ -1,7 +1,6 @@
 import com.github.javafaker.Faker;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.HomePage;
 import pages.LoginPage;
 
 
